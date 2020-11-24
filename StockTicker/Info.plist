@@ -28,7 +28,14 @@
 	<key>UIApplicationSupportsIndirectInputEvents</key>
 	<true/>
 	<key>UILaunchScreen</key>
-	<dict/>
+	<dict>
+		<key>UIImageRespectsSafeAreaInsets</key>
+		<false/>
+		<key>UIColorName</key>
+		<string>SplashScreenColor</string>
+		<key>UIImageName</key>
+		<string>SplashScreenImage</string>
+	</dict>
 	<key>UIRequiredDeviceCapabilities</key>
 	<array>
 		<string>armv7</string>
