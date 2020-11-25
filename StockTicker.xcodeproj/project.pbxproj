@@ -8,11 +8,14 @@
 
 /* Begin PBXBuildFile section */
 		F56506CC25696CC2003E194A /* StockTickerApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = F56506CB25696CC2003E194A /* StockTickerApp.swift */; };
-		F56506CE25696CC2003E194A /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F56506CD25696CC2003E194A /* ContentView.swift */; };
+		F56506CE25696CC2003E194A /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F56506CD25696CC2003E194A /* HomeView.swift */; };
 		F56506D325696CC3003E194A /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F56506D225696CC3003E194A /* Preview Assets.xcassets */; };
 		F56506DE25696CC3003E194A /* StockTickerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F56506DD25696CC3003E194A /* StockTickerTests.swift */; };
 		F56506E925696CC3003E194A /* StockTickerUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F56506E825696CC3003E194A /* StockTickerUITests.swift */; };
 		F59304A6256D58BF0032FC5E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F59304A5256D58BF0032FC5E /* Assets.xcassets */; };
+		F5D76EF1256E27B700751930 /* SearchBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5D76EF0256E27B700751930 /* SearchBar.swift */; };
+		F5D76EF6256E29A500751930 /* ViewControllerResolver.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5D76EF5256E29A500751930 /* ViewControllerResolver.swift */; };
+		F5D76EFB256E3DA200751930 /* StockListItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5D76EFA256E3DA200751930 /* StockListItem.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -35,7 +38,7 @@
 /* Begin PBXFileReference section */
 		F56506C825696CC2003E194A /* StockTicker.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = StockTicker.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		F56506CB25696CC2003E194A /* StockTickerApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StockTickerApp.swift; sourceTree = "<group>"; };
-		F56506CD25696CC2003E194A /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		F56506CD25696CC2003E194A /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
 		F56506D225696CC3003E194A /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		F56506D425696CC3003E194A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		F56506D925696CC3003E194A /* StockTickerTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = StockTickerTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -45,6 +48,9 @@
 		F56506E825696CC3003E194A /* StockTickerUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StockTickerUITests.swift; sourceTree = "<group>"; };
 		F56506EA25696CC3003E194A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		F59304A5256D58BF0032FC5E /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Assets.xcassets; path = ../../../../../Downloads/Assets.xcassets; sourceTree = "<group>"; };
+		F5D76EF0256E27B700751930 /* SearchBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchBar.swift; sourceTree = "<group>"; };
+		F5D76EF5256E29A500751930 /* ViewControllerResolver.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewControllerResolver.swift; sourceTree = "<group>"; };
+		F5D76EFA256E3DA200751930 /* StockListItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StockListItem.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -96,7 +102,10 @@
 			isa = PBXGroup;
 			children = (
 				F56506CB25696CC2003E194A /* StockTickerApp.swift */,
-				F56506CD25696CC2003E194A /* ContentView.swift */,
+				F56506CD25696CC2003E194A /* HomeView.swift */,
+				F5D76EF0256E27B700751930 /* SearchBar.swift */,
+				F5D76EFA256E3DA200751930 /* StockListItem.swift */,
+				F5D76EF5256E29A500751930 /* ViewControllerResolver.swift */,
 				F56506D425696CC3003E194A /* Info.plist */,
 				F59304A5256D58BF0032FC5E /* Assets.xcassets */,
 				F56506D125696CC3003E194A /* Preview Content */,
@@ -259,8 +268,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				F56506CE25696CC2003E194A /* ContentView.swift in Sources */,
+				F5D76EF6256E29A500751930 /* ViewControllerResolver.swift in Sources */,
+				F56506CE25696CC2003E194A /* HomeView.swift in Sources */,
 				F56506CC25696CC2003E194A /* StockTickerApp.swift in Sources */,
+				F5D76EFB256E3DA200751930 /* StockListItem.swift in Sources */,
+				F5D76EF1256E27B700751930 /* SearchBar.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
