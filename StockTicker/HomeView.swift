@@ -7,6 +7,7 @@
 
 import SwiftUI
 import SwiftyJSON
+import Combine
 
 struct HomeView: View {
     @State var date: Date = Date()
@@ -16,7 +17,7 @@ struct HomeView: View {
     @AppStorage("cash") var cash: Double = 0.0
     @State var portfolio: [StockInfo] = []
     @State var favorites: [StockInfo] = []
-    @State var finishedCount = 0;
+    @State var finishedCount = 0
     var net: Double {
         var sum = cash
         portfolio.forEach { item in
@@ -24,8 +25,7 @@ struct HomeView: View {
         }
         return sum
     }
-    
-    
+    let timer = Timer.publish(every: 15, on: .main, in: .common).autoconnect()
     let formatter: DateFormatter = DateFormatter()
     
     init() {
@@ -107,6 +107,10 @@ struct HomeView: View {
                 .toolbar(content: {
                     EditButton()
                 })
+                .onReceive(timer, perform: { _ in
+                    fetchData(type: 0, toInit: false)
+                    fetchData(type: 1, toInit: false)
+                })
             }
         }
     }
@@ -155,6 +159,8 @@ struct HomeView: View {
             
             if (toInit) {
                 finishedCount += 1;
+            } else {
+                print("\(type == 0 ? "Portfolio" : "Favorites") data updated.")
             }
         }
     }
