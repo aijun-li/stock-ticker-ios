@@ -11,7 +11,7 @@ import SwiftyJSON
 
 struct HTTP {
     static func getLatestPrice(tickers: String, callback: @escaping (JSON) -> Void) {
-        AF.request("https://mystockticker-pro-225417.wm.r.appspot.com/api/details/latest?tickers=\(tickers)").responseJSON { response in
+        AF.request("https://mystockticker-pro-225417.wm.r.appspot.com/api/details/latest?tickers=\(tickers)").validate().responseJSON { response in
             callback(JSON(response.data!))
         }
     }
