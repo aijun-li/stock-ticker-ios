@@ -6,28 +6,39 @@
 //
 
 import SwiftUI
+import Combine
 
 struct StockListItem: View {
+    var item: StockInfo
+    
     var body: some View {
         VStack {
             HStack {
-                Text("AAPL")
+                Text(item.ticker)
                     .font(.title2)
                     .fontWeight(.bold)
                 Spacer()
-                Text("111.20")
+                Text(item.latest.last.toFixed(to: 2))
                     .fontWeight(.bold)
+                
             }
             HStack {
-                Text("10.00 shares")
-                    .foregroundColor(.secondary)
+                if (item.shares > 0) {
+                    Text("\(item.shares.toFixed(to: 2)) shares")
+                        .foregroundColor(.gray)
+                } else {
+                    Text(item.company)
+                        .foregroundColor(.gray)
+                }
                 Spacer()
                 HStack {
-                    Image(systemName: "arrow.down.right")
-                        .padding(.horizontal, 8)
-                    Text("-5.40")
+                    if item.latest.change != 0 {
+                        Image(systemName: item.latest.change < 0 ?  "arrow.down.right" : "arrow.up.right")
+                            .padding(.horizontal, 8)
+                    }
+                    Text("\(item.latest.change.toFixed(to: 2))")
                 }
-                .foregroundColor(.red)
+                .foregroundColor(item.latest.change > 0 ? .green : item.latest.change < 0 ? .red : .gray)
             }
         }
     }
@@ -35,7 +46,7 @@ struct StockListItem: View {
 
 struct StockListItem_Previews: PreviewProvider {
     static var previews: some View {
-        StockListItem()
+        StockListItem(item: testPortfolio)
             .previewLayout(.sizeThatFits)
     }
 }

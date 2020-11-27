@@ -15,3 +15,9 @@ struct StockTickerApp: App {
         }
     }
 }
+
+extension Double {
+    func toFixed(to digits: Int) -> String {
+        return String(format: "%.\(digits)f", self)
+    }
+}

@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 52;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -12,6 +12,11 @@
 		F56506D325696CC3003E194A /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F56506D225696CC3003E194A /* Preview Assets.xcassets */; };
 		F56506DE25696CC3003E194A /* StockTickerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F56506DD25696CC3003E194A /* StockTickerTests.swift */; };
 		F56506E925696CC3003E194A /* StockTickerUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F56506E825696CC3003E194A /* StockTickerUITests.swift */; };
+		F56EE7C0256F713E009AC4BB /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = F56EE7BF256F713E009AC4BB /* Alamofire */; };
+		F56EE7C6256F7557009AC4BB /* SwiftyJSON in Frameworks */ = {isa = PBXBuildFile; productRef = F56EE7C5256F7557009AC4BB /* SwiftyJSON */; };
+		F56EE7F4256FAB4E009AC4BB /* StockInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = F56EE7F3256FAB4E009AC4BB /* StockInfo.swift */; };
+		F56EE7FD256FC3E1009AC4BB /* TestData.swift in Sources */ = {isa = PBXBuildFile; fileRef = F56EE7FC256FC3E1009AC4BB /* TestData.swift */; };
+		F56EE805256FFFE0009AC4BB /* HTTP.swift in Sources */ = {isa = PBXBuildFile; fileRef = F56EE804256FFFE0009AC4BB /* HTTP.swift */; };
 		F59304A6256D58BF0032FC5E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F59304A5256D58BF0032FC5E /* Assets.xcassets */; };
 		F5D76EF1256E27B700751930 /* SearchBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5D76EF0256E27B700751930 /* SearchBar.swift */; };
 		F5D76EF6256E29A500751930 /* ViewControllerResolver.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5D76EF5256E29A500751930 /* ViewControllerResolver.swift */; };
@@ -47,6 +52,9 @@
 		F56506E425696CC3003E194A /* StockTickerUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = StockTickerUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		F56506E825696CC3003E194A /* StockTickerUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StockTickerUITests.swift; sourceTree = "<group>"; };
 		F56506EA25696CC3003E194A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		F56EE7F3256FAB4E009AC4BB /* StockInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StockInfo.swift; sourceTree = "<group>"; };
+		F56EE7FC256FC3E1009AC4BB /* TestData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestData.swift; sourceTree = "<group>"; };
+		F56EE804256FFFE0009AC4BB /* HTTP.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HTTP.swift; sourceTree = "<group>"; };
 		F59304A5256D58BF0032FC5E /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Assets.xcassets; path = ../../../../../Downloads/Assets.xcassets; sourceTree = "<group>"; };
 		F5D76EF0256E27B700751930 /* SearchBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchBar.swift; sourceTree = "<group>"; };
 		F5D76EF5256E29A500751930 /* ViewControllerResolver.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewControllerResolver.swift; sourceTree = "<group>"; };
@@ -58,6 +66,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F56EE7C6256F7557009AC4BB /* SwiftyJSON in Frameworks */,
+				F56EE7C0256F713E009AC4BB /* Alamofire in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -101,8 +111,11 @@
 		F56506CA25696CC2003E194A /* StockTicker */ = {
 			isa = PBXGroup;
 			children = (
+				F56EE7FB256FC3D1009AC4BB /* TestData */,
+				F56EE7D7256F8C7D009AC4BB /* Models */,
 				F56506CB25696CC2003E194A /* StockTickerApp.swift */,
 				F56506CD25696CC2003E194A /* HomeView.swift */,
+				F56EE804256FFFE0009AC4BB /* HTTP.swift */,
 				F5D76EF0256E27B700751930 /* SearchBar.swift */,
 				F5D76EFA256E3DA200751930 /* StockListItem.swift */,
 				F5D76EF5256E29A500751930 /* ViewControllerResolver.swift */,
@@ -139,6 +152,22 @@
 			path = StockTickerUITests;
 			sourceTree = "<group>";
 		};
+		F56EE7D7256F8C7D009AC4BB /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				F56EE7F3256FAB4E009AC4BB /* StockInfo.swift */,
+			);
+			name = Models;
+			sourceTree = "<group>";
+		};
+		F56EE7FB256FC3D1009AC4BB /* TestData */ = {
+			isa = PBXGroup;
+			children = (
+				F56EE7FC256FC3E1009AC4BB /* TestData.swift */,
+			);
+			name = TestData;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -155,6 +184,10 @@
 			dependencies = (
 			);
 			name = StockTicker;
+			packageProductDependencies = (
+				F56EE7BF256F713E009AC4BB /* Alamofire */,
+				F56EE7C5256F7557009AC4BB /* SwiftyJSON */,
+			);
 			productName = StockTicker;
 			productReference = F56506C825696CC2003E194A /* StockTicker.app */;
 			productType = "com.apple.product-type.application";
@@ -226,6 +259,10 @@
 				Base,
 			);
 			mainGroup = F56506BF25696CC2003E194A;
+			packageReferences = (
+				F56EE7BE256F713E009AC4BB /* XCRemoteSwiftPackageReference "Alamofire" */,
+				F56EE7C4256F7557009AC4BB /* XCRemoteSwiftPackageReference "SwiftyJSON" */,
+			);
 			productRefGroup = F56506C925696CC2003E194A /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -268,10 +305,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F56EE7F4256FAB4E009AC4BB /* StockInfo.swift in Sources */,
 				F5D76EF6256E29A500751930 /* ViewControllerResolver.swift in Sources */,
 				F56506CE25696CC2003E194A /* HomeView.swift in Sources */,
 				F56506CC25696CC2003E194A /* StockTickerApp.swift in Sources */,
 				F5D76EFB256E3DA200751930 /* StockListItem.swift in Sources */,
+				F56EE805256FFFE0009AC4BB /* HTTP.swift in Sources */,
+				F56EE7FD256FC3E1009AC4BB /* TestData.swift in Sources */,
 				F5D76EF1256E27B700751930 /* SearchBar.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -586,6 +626,38 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		F56EE7BE256F713E009AC4BB /* XCRemoteSwiftPackageReference "Alamofire" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/Alamofire/Alamofire.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 5.4.0;
+			};
+		};
+		F56EE7C4256F7557009AC4BB /* XCRemoteSwiftPackageReference "SwiftyJSON" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/SwiftyJSON/SwiftyJSON.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 5.0.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		F56EE7BF256F713E009AC4BB /* Alamofire */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = F56EE7BE256F713E009AC4BB /* XCRemoteSwiftPackageReference "Alamofire" */;
+			productName = Alamofire;
+		};
+		F56EE7C5256F7557009AC4BB /* SwiftyJSON */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = F56EE7C4256F7557009AC4BB /* XCRemoteSwiftPackageReference "SwiftyJSON" */;
+			productName = SwiftyJSON;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = F56506C025696CC2003E194A /* Project object */;
 }
