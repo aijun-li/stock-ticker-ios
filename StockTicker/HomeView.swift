@@ -17,7 +17,7 @@ struct HomeView: View {
     @AppStorage("cash") var cash: Double = 0.0
     @State var portfolio: [StockInfo] = []
     @State var favorites: [StockInfo] = []
-    @State var finishedCount = 0
+    @State var fetched = false
     var net: Double {
         var sum = cash
         portfolio.forEach { item in
@@ -27,6 +27,7 @@ struct HomeView: View {
     }
     let timer = Timer.publish(every: 15, on: .main, in: .common).autoconnect()
     let formatter: DateFormatter = DateFormatter()
+    let group = DispatchGroup()
     
     init() {
         formatter.dateStyle = .long
@@ -36,15 +37,14 @@ struct HomeView: View {
     
     var body: some View {
         NavigationView {
-            if (finishedCount != 2) {
+            if (!fetched) {
                 ProgressView() {
                     Text("Fetching Data...")
                 }
                 .navigationTitle("Stocks")
                 .onAppear {
                     buildArrays()
-                    fetchData(type: 0, toInit: true)
-                    fetchData(type: 1, toInit: true)
+                    updateData(toInit: true)
                 }
             } else {
                 List {
@@ -107,10 +107,9 @@ struct HomeView: View {
                 .toolbar(content: {
                     EditButton()
                 })
-                .onReceive(timer, perform: { _ in
-                    fetchData(type: 0, toInit: false)
-                    fetchData(type: 1, toInit: false)
-                })
+                .onReceive(timer) { _ in
+                    updateData(toInit: false)
+                }
             }
         }
     }
@@ -141,8 +140,29 @@ struct HomeView: View {
         favorites = favoritesTmp
     }
     
+    // update data in both portfolio and favorites
+    func updateData(toInit: Bool) {
+        group.enter()
+        fetchData(type: 0)
+        
+        group.enter()
+        fetchData(type: 1)
+        
+        group.notify(queue: .main) {
+            if (toInit) {
+                fetched = true
+            }
+            
+            let tmpFormatter = DateFormatter()
+            tmpFormatter.dateStyle = .none
+            tmpFormatter.timeStyle = .medium
+            formatter.timeZone = TimeZone(identifier: "America/Los_Angeles")
+            print("\(tmpFormatter.string(from: Date()))  Data Updated\n")
+        }
+    }
+    
     // fetch stock data
-    func fetchData(type: Int, toInit: Bool) {
+    func fetchData(type: Int) {
         let tickers = (type == 0 ? portfolioStored : favoritesStored) .split(separator: ",").map { $0.split(separator: "|")[0] }.joined(separator: ",")
         
         HTTP.getLatestPrice(tickers: tickers) { data in
@@ -156,12 +176,7 @@ struct HomeView: View {
                     favorites[index!].latest.change = item["last"].double! - item["prevClose"].double!
                 }
             }
-            
-            if (toInit) {
-                finishedCount += 1;
-            } else {
-                print("\(type == 0 ? "Portfolio" : "Favorites") data updated.")
-            }
+            group.leave()
         }
     }
     
