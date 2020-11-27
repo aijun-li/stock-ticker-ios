@@ -61,8 +61,8 @@ struct HomeView: View {
                                 StockListItem(item: item)
                             }
                         }
-                        .onMove(perform: moveItem)
-                        .onDelete(perform: deleteItem)
+                        .onMove(perform: moveItem(type: 0))
+                        .onDelete(perform: deleteItem(type: 0))
                     }
                     
                     // Favorites Section
@@ -72,8 +72,8 @@ struct HomeView: View {
                                 StockListItem(item: item)
                             }
                         }
-                        .onMove(perform: moveItem)
-                        .onDelete(perform: deleteItem)
+                        .onMove(perform: moveItem(type: 1))
+                        .onDelete(perform: deleteItem(type: 1))
                     }
                     
                     // Footer
@@ -145,16 +145,41 @@ struct HomeView: View {
         }
     }
     
-    
-    func moveItem(from: IndexSet, to: Int) {
-        withAnimation {
-            
+    // move item in the list
+    func moveItem(type: Int) -> (IndexSet, Int)->Void {
+        if (type == 0) {
+            return { from, to in
+                withAnimation {
+                    portfolio.move(fromOffsets: from, toOffset: to)
+                    portfolioStored = portfolio.map { "\($0.ticker)|\($0.shares)" }.joined(separator: ",")
+                }
+            }
+        } else {
+            return { from, to in
+                withAnimation {
+                    favorites.move(fromOffsets: from, toOffset: to)
+                    favoritesStored = favorites.map { "\($0.ticker)|\($0.company)" }.joined(separator: ",")
+                }
+            }
         }
     }
     
-    func deleteItem(offsets: IndexSet) {
-        withAnimation {
-            
+    // delete item in the list
+    func deleteItem(type: Int) -> (IndexSet)->Void {
+        if (type == 0) {
+            return { offests in
+                withAnimation {
+                    portfolio.remove(atOffsets: offests)
+                    portfolioStored = portfolio.map { "\($0.ticker)|\($0.shares)" }.joined(separator: ",")
+                }
+            }
+        } else {
+            return { offsets in
+                withAnimation {
+                    favorites.remove(atOffsets: offsets)
+                    favoritesStored = favorites.map { "\($0.ticker)|\($0.company)" }.joined(separator: ",")
+                }
+            }
         }
     }
 }
