@@ -13,9 +13,17 @@ struct HomeView: View {
     @ObservedObject var searchBar: SearchBar = SearchBar()
     @AppStorage("portfolio") var portfolioStored: String = ""
     @AppStorage("favorites") var favoritesStored: String = ""
+    @AppStorage("cash") var cash: Double = 0.0
     @State var portfolio: [StockInfo] = []
     @State var favorites: [StockInfo] = []
     @State var finishedCount = 0;
+    var net: Double {
+        var sum = cash
+        portfolio.forEach { item in
+            sum += item.shares * item.latest.last
+        }
+        return sum
+    }
     
     
     let formatter: DateFormatter = DateFormatter()
@@ -49,11 +57,17 @@ struct HomeView: View {
                     // Portfolio Section
                     Section(header: Text("Portfolio")) {
                         VStack {
-                            Text("Net Worth")
-                                .font(.title)
-                            Text("19961.60")
-                                .font(.title)
-                                .fontWeight(.bold)
+                            HStack {
+                                Text("Net Worth")
+                                    .font(.title)
+                                Spacer()
+                            }
+                            HStack {
+                                Text("\(net.toFixed(to: 2))")
+                                    .font(.title)
+                                    .fontWeight(.bold)
+                                Spacer()
+                            }
                         }
                         
                         ForEach(portfolio, id: \.ticker) { item in
