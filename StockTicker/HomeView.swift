@@ -76,7 +76,6 @@ struct HomeView: View {
                             }
                         }
                         .onMove(perform: moveItem(type: 0))
-                        .onDelete(perform: deleteItem(type: 0))
                     }
                     
                     // Favorites Section
@@ -87,7 +86,7 @@ struct HomeView: View {
                             }
                         }
                         .onMove(perform: moveItem(type: 1))
-                        .onDelete(perform: deleteItem(type: 1))
+                        .onDelete(perform: deleteItem)
                     }
                     
                     // Footer
@@ -199,22 +198,11 @@ struct HomeView: View {
         }
     }
     
-    // delete item in the list
-    func deleteItem(type: Int) -> (IndexSet)->Void {
-        if (type == 0) {
-            return { offests in
-                withAnimation {
-                    portfolio.remove(atOffsets: offests)
-                    portfolioStored = portfolio.map { "\($0.ticker)|\($0.shares)" }.joined(separator: ",")
-                }
-            }
-        } else {
-            return { offsets in
-                withAnimation {
-                    favorites.remove(atOffsets: offsets)
-                    favoritesStored = favorites.map { "\($0.ticker)|\($0.company)" }.joined(separator: ",")
-                }
-            }
+    // delete item only in the favorites
+    func deleteItem(offsets: IndexSet) {
+        withAnimation {
+            favorites.remove(atOffsets: offsets)
+            favoritesStored = favorites.map { "\($0.ticker)|\($0.company)" }.joined(separator: ",")
         }
     }
 }
