@@ -172,11 +172,15 @@ struct HomeView: View {
     
     // update data in both portfolio and favorites
     func updateData(toInit: Bool) {
-        group.enter()
-        fetchData(type: 0)
+        if (!portfolioStored.isEmpty) {
+            group.enter()
+            fetchData(type: 0)
+        }
         
-        group.enter()
-        fetchData(type: 1)
+        if (!favoritesStored.isEmpty) {
+            group.enter()
+            fetchData(type: 1)
+        }
         
         group.notify(queue: .main) {
             if (toInit) {
