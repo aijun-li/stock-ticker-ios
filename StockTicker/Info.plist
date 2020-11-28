@@ -30,7 +30,7 @@
 	<key>UILaunchScreen</key>
 	<dict>
 		<key>UIImageRespectsSafeAreaInsets</key>
-		<false/>
+		<true/>
 		<key>UIColorName</key>
 		<string>SplashScreenColor</string>
 		<key>UIImageName</key>
