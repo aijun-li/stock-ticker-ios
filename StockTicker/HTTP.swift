@@ -15,4 +15,10 @@ struct HTTP {
             callback(JSON(response.data!))
         }
     }
+    
+    static func getSuggestions(keyword: String, callback: @escaping (JSON) -> Void) {
+        AF.request("https://mystockticker-pro-225417.wm.r.appspot.com/api/suggestions/\(keyword)").validate().responseJSON { response in
+            callback(JSON(response.data!))
+        }
+    }
 }

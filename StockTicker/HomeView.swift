@@ -18,6 +18,7 @@ struct HomeView: View {
     @State var portfolio: [StockInfo] = []
     @State var favorites: [StockInfo] = []
     @State var fetched = false
+    @State var suggestions: [SearchInfo] = []
     var net: Double {
         var sum = cash
         portfolio.forEach { item in
@@ -28,6 +29,7 @@ struct HomeView: View {
     let timer = Timer.publish(every: 15, on: .main, in: .common).autoconnect()
     let formatter: DateFormatter = DateFormatter()
     let group = DispatchGroup()
+    let debouncer = Debouncer(delay: 0.6)
     
     init() {
         formatter.dateStyle = .long
@@ -48,58 +50,78 @@ struct HomeView: View {
                 }
             } else {
                 List {
-                    // Date Section
-                    Text(formatter.string(from: date))
-                        .font(.title)
-                        .fontWeight(.bold)
-                        .foregroundColor(.gray)
-                    
-                    // Portfolio Section
-                    Section(header: Text("Portfolio")) {
-                        VStack {
-                            HStack {
-                                Text("Net Worth")
-                                    .font(.title)
-                                Spacer()
+                    if (!searchBar.text.isEmpty) {
+                        // search list view
+                        ForEach(suggestions, id: \.ticker) { item in
+                            NavigationLink(destination: /*@START_MENU_TOKEN@*//*@PLACEHOLDER=Destination@*/Text("Destination")/*@END_MENU_TOKEN@*/) {
+                                VStack {
+                                    HStack {
+                                        Text(item.ticker)
+                                            .font(.title2)
+                                            .fontWeight(.bold)
+                                        Spacer()
+                                    }
+                                    HStack {
+                                        Text(item.company)
+                                            .foregroundColor(.gray)
+                                        Spacer()
+                                    }
+                                }
                             }
-                            HStack {
-                                Text("\(net.toFixed(to: 2))")
-                                    .font(.title)
-                                    .fontWeight(.bold)
-                                Spacer()
+                        }
+                    } else {
+                        // Date Section
+                        Text(formatter.string(from: date))
+                            .font(.title)
+                            .fontWeight(.bold)
+                            .foregroundColor(.gray)
+                        
+                        // Portfolio Section
+                        Section(header: Text("Portfolio")) {
+                            VStack {
+                                HStack {
+                                    Text("Net Worth")
+                                        .font(.title)
+                                    Spacer()
+                                }
+                                HStack {
+                                    Text("\(net.toFixed(to: 2))")
+                                        .font(.title)
+                                        .fontWeight(.bold)
+                                    Spacer()
+                                }
                             }
+                            
+                            ForEach(portfolio, id: \.ticker) { item in
+                                NavigationLink(destination: /*@START_MENU_TOKEN@*//*@PLACEHOLDER=Destination@*/Text("Destination")/*@END_MENU_TOKEN@*/) {
+                                    StockListItem(item: item)
+                                }
+                            }
+                            .onMove(perform: moveItem(type: 0))
                         }
                         
-                        ForEach(portfolio, id: \.ticker) { item in
-                            NavigationLink(destination: /*@START_MENU_TOKEN@*//*@PLACEHOLDER=Destination@*/Text("Destination")/*@END_MENU_TOKEN@*/) {
-                                StockListItem(item: item)
+                        // Favorites Section
+                        Section(header: Text("Favorites")) {
+                            ForEach(favorites, id: \.ticker) { item in
+                                NavigationLink(destination: /*@START_MENU_TOKEN@*//*@PLACEHOLDER=Destination@*/Text("Destination")/*@END_MENU_TOKEN@*/) {
+                                    StockListItem(item: item)
+                                }
                             }
+                            .onMove(perform: moveItem(type: 1))
+                            .onDelete(perform: deleteItem)
                         }
-                        .onMove(perform: moveItem(type: 0))
-                    }
-                    
-                    // Favorites Section
-                    Section(header: Text("Favorites")) {
-                        ForEach(favorites, id: \.ticker) { item in
-                            NavigationLink(destination: /*@START_MENU_TOKEN@*//*@PLACEHOLDER=Destination@*/Text("Destination")/*@END_MENU_TOKEN@*/) {
-                                StockListItem(item: item)
+                        
+                        // Footer
+                        HStack {
+                            Spacer()
+                            Link(destination: URL(string: "https://www.tiingo.com")!) {
+                                Text("Powered by Tiingo")
+                                    .font(.footnote)
+                                    .foregroundColor(.gray)
                             }
+                            Spacer()
                         }
-                        .onMove(perform: moveItem(type: 1))
-                        .onDelete(perform: deleteItem)
                     }
-                    
-                    // Footer
-                    HStack {
-                        Spacer()
-                        Link(destination: URL(string: "https://www.tiingo.com")!) {
-                            Text("Powered by Tiingo")
-                                .font(.footnote)
-                                .foregroundColor(.gray)
-                        }
-                        Spacer()
-                    }
-                    
                 }
                 .navigationTitle("Stocks")
                 .add(searchBar)
@@ -108,6 +130,15 @@ struct HomeView: View {
                 })
                 .onReceive(timer) { _ in
                     updateData(toInit: false)
+                }
+                .onChange(of: searchBar.text) { text in
+                    if (text.count >= 3) {
+                        debouncer.run {
+                            fetchSuggestions()
+                        }
+                    } else if (text.isEmpty) {
+                        suggestions = []
+                    }
                 }
             }
         }
@@ -176,6 +207,18 @@ struct HomeView: View {
                 }
             }
             group.leave()
+        }
+    }
+    
+    // fetch suggestions based on input keyword
+    func fetchSuggestions() {
+        HTTP.getSuggestions(keyword: searchBar.text) { data in
+            suggestions = []
+            for (_, item): (String, JSON) in data {
+                if let ticker = item["ticker"].string, let company = item["name"].string {
+                    suggestions.append(SearchInfo(ticker, company))
+                }
+            }
         }
     }
     
