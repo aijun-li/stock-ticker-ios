@@ -21,4 +21,16 @@ struct HTTP {
             callback(JSON(response.data!))
         }
     }
+    
+    static func getMeta(ticker: String, callback: @escaping (JSON) -> Void) {
+        AF.request("https://mystockticker-pro-225417.wm.r.appspot.com/api/details/meta/\(ticker)").validate().responseJSON { response in
+            callback(JSON(response.data!))
+        }
+    }
+    
+    static func getNews(ticker: String, callback: @escaping (JSON) -> Void) {
+        AF.request("https://mystockticker-pro-225417.wm.r.appspot.com/api/news/\(ticker)").validate().responseJSON { response in
+            callback(JSON(response.data!))
+        }
+    }
 }

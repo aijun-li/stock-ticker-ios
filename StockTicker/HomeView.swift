@@ -53,7 +53,7 @@ struct HomeView: View {
                     if (!searchBar.text.isEmpty) {
                         // search list view
                         ForEach(suggestions, id: \.ticker) { item in
-                            NavigationLink(destination: /*@START_MENU_TOKEN@*//*@PLACEHOLDER=Destination@*/Text("Destination")/*@END_MENU_TOKEN@*/) {
+                            NavigationLink(destination: StockDetails(ticker: item.ticker)) {
                                 VStack {
                                     HStack {
                                         Text(item.ticker)
@@ -93,7 +93,7 @@ struct HomeView: View {
                             }
                             
                             ForEach(portfolio, id: \.ticker) { item in
-                                NavigationLink(destination: /*@START_MENU_TOKEN@*//*@PLACEHOLDER=Destination@*/Text("Destination")/*@END_MENU_TOKEN@*/) {
+                                NavigationLink(destination: StockDetails(ticker: item.ticker)) {
                                     StockListItem(item: item)
                                 }
                             }
@@ -103,7 +103,7 @@ struct HomeView: View {
                         // Favorites Section
                         Section(header: Text("Favorites")) {
                             ForEach(favorites, id: \.ticker) { item in
-                                NavigationLink(destination: /*@START_MENU_TOKEN@*//*@PLACEHOLDER=Destination@*/Text("Destination")/*@END_MENU_TOKEN@*/) {
+                                NavigationLink(destination: StockDetails(ticker: item.ticker)) {
                                     StockListItem(item: item)
                                 }
                             }

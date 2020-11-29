@@ -15,7 +15,6 @@ struct StockInfo {
     
     init(_ ticker:String) {
         self.ticker = ticker
-        
     }
 }
 
