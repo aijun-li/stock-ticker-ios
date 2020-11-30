@@ -148,7 +148,7 @@ struct StockDetails: View {
                             .font(.footnote)
                         }
                     }
-                    .padding(.top)
+                    .padding(.top, 25)
                     
                     // news section
                     Group {
@@ -157,6 +157,7 @@ struct StockDetails: View {
                                 .font(.title2)
                             Spacer()
                         }
+                        .padding(.top)
                         if (news.count > 0) {
                             Link(destination: URL(string: news[0].url)!) {
                                 VStack {
@@ -201,14 +202,15 @@ struct StockDetails: View {
                             }
                             
                             Divider()
+                                .padding(.top, 5)
                             
                             // news list
                             ForEach (1..<news.count, id: \.self) { index in
                                 NewsListItem(news: news[index])
                             }
+                            .padding(.vertical, 5)
                         }
                     }
-                    .padding(.top)
                     
                     Spacer()
                 }
