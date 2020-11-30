@@ -14,8 +14,8 @@ struct StockDetails: View {
     @AppStorage("portfolio") var portfolioStored: String = ""
     @AppStorage("favorites") var favoritesStored: String = ""
     @AppStorage("cash") var cash: Double = 0.0
-    @State var portfolio: [StockInfo] = []
-    @State var favorites: [StockInfo] = []
+    @Binding var portfolio: [StockInfo]
+    @Binding var favorites: [StockInfo]
     @State var details: StockInfo!
     @State var news: [NewsItem] = []
     @State var fetched = false
@@ -25,8 +25,10 @@ struct StockDetails: View {
     let group = DispatchGroup()
     let formatter = DateFormatter()
     
-    init(ticker: String) {
+    init(ticker: String, portfolio: Binding<[StockInfo]>, favorites: Binding<[StockInfo]>) {
         self.ticker = ticker
+        self._portfolio = portfolio
+        self._favorites = favorites
         
         formatter.locale = Locale(identifier: "en_US_POSIX")
         formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ssZ"
@@ -41,7 +43,6 @@ struct StockDetails: View {
             .onAppear {
                 details = StockInfo(ticker)
                 fetchDetails()
-                buildArrays()
                 getSharesAndFavorite()
             }
         } else {
@@ -323,32 +324,6 @@ struct StockDetails: View {
         }
     }
     
-    // initialize arrays based on stored information
-    func buildArrays() {
-        var portfolioTmp: [StockInfo] = []
-        var favoritesTmp: [StockInfo] = []
-        
-        portfolioStored.split(separator: ",").forEach { s in
-            let info = s.split(separator: "|")
-            var item = StockInfo(String(info[0]))
-            item.shares = Double(info[1])!
-            portfolioTmp.append(item)
-        }
-        
-        favoritesStored.split(separator: ",").forEach { s in
-            let info = s.split(separator: "|")
-            var item = StockInfo(String(info[0]))
-            item.company = String(info[1])
-            if let found = portfolioTmp.first(where: { $0.ticker.uppercased() == info[0].uppercased() }){
-                item.shares = found.shares
-            }
-            favoritesTmp.append(item)
-        }
-        
-        portfolio = portfolioTmp
-        favorites = favoritesTmp
-    }
-    
     func calcDateDiff(date: String) -> String {
         let origin = formatter.date(from: date)!
         let diff = Int(Date().timeIntervalSince(origin))
@@ -372,9 +347,7 @@ struct StockDetails: View {
     
     func toggleFavorite() {
         if !isFavorite {
-            var tmp = StockInfo(ticker.uppercased())
-            tmp.company = details.company
-            favorites.append(tmp)
+            favorites.append(details)
             updateFavorites()
         } else if let index = favorites.firstIndex(where: { $0.ticker == ticker }) {
             favorites.remove(at: index)
@@ -450,10 +423,10 @@ struct MyButtonStyle: ButtonStyle {
     }
 }
 
-struct StockDetails_Previews: PreviewProvider {
-    static var previews: some View {
-        NavigationView {
-            StockDetails(ticker: "AMZN")
-        }
-    }
-}
+//struct StockDetails_Previews: PreviewProvider {
+//    static var previews: some View {
+//        NavigationView {
+//            StockDetails(ticker: "AMZN")
+//        }
+//    }
+//}
