@@ -165,25 +165,40 @@ struct StockDetails: View {
                                         .scaledToFill()
                                         .cornerRadius(10)
                                         .clipped()
-                                    HStack {
-                                        Text("\(news[0].source) ")
-                                            .fontWeight(.bold)
-                                        Text(news[0].diff)
-                                        Spacer()
+                                    VStack {
+                                        HStack {
+                                            Text("\(news[0].source) ")
+                                                .fontWeight(.bold)
+                                            Text(news[0].diff)
+                                            Spacer()
+                                        }
+                                        .font(.footnote)
+                                        .foregroundColor(.gray)
+                                        .padding(.top, 10)
+                                        .padding(.bottom, 0.5)
+                                        HStack {
+                                            Text(news[0].title)
+                                                .fontWeight(/*@START_MENU_TOKEN@*/.bold/*@END_MENU_TOKEN@*/)
+                                                .fixedSize(horizontal: false, vertical: true)
+                                            Spacer()
+                                        }
                                     }
-                                    .font(.footnote)
-                                    .foregroundColor(.gray)
-                                    .padding(.top, 10)
-                                    .padding(.bottom, 0.5)
-                                    HStack {
-                                        Text(news[0].title)
-                                            .fontWeight(/*@START_MENU_TOKEN@*/.bold/*@END_MENU_TOKEN@*/)
-                                            .fixedSize(horizontal: false, vertical: true)
-                                        Spacer()
-                                    }
+                                    .padding(.horizontal, 5)
+                                    .padding(.bottom, 2)
                                 }
                             }
                             .foregroundColor(.black)
+                            .background(Color.white)
+                            .contentShape(RoundedRectangle(cornerRadius: 10))
+                            .buttonStyle(MyButtonStyle())
+                            .contextMenu {
+                                Link(destination: URL(string: news[0].url)!) {
+                                    Label("Open in Safari", systemImage: "safari")
+                                }
+                                Link(destination: URL(string: "https://twitter.com/intent/tweet?\(getQueryText(news[0].url))")!) {
+                                    Label("Share on Twitter", systemImage: "square.and.arrow.up")
+                                }
+                            }
                             
                             Divider()
                             
@@ -335,6 +350,11 @@ struct StockDetails: View {
             return "\(minutes) \(minutes > 1 ? "minutes" : "minute") ago"
         }
     }
+    
+    func getQueryText(_ url: String) -> String {
+        let query = "text=Check out this link:&url=\(url)&hashtags=CSCI571StockApp"
+        return query.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)!
+    }
 }
 
 struct NewsListItem: View {
@@ -360,16 +380,40 @@ struct NewsListItem: View {
                         Spacer()
                     }
                 }
+                .padding(.leading, 5)
                 
                 KFImage(URL(string: news.img)!)
                     .resizable()
                     .scaledToFill()
-                    .frame(width: 90, height: 90)
+                    .frame(width: 95, height: 95)
                     .cornerRadius(10)
                     .clipped()
             }
         }
         .foregroundColor(.black)
+        .background(Color.white)
+        .contentShape(RoundedRectangle(cornerRadius: 10))
+        .buttonStyle(MyButtonStyle())
+        .contextMenu {
+            Link(destination: URL(string: news.url)!) {
+                Label("Open in Safari", systemImage: "safari")
+            }
+            Link(destination: URL(string: "https://twitter.com/intent/tweet?\(getQueryText(news.url))")!) {
+                Label("Share on Twitter", systemImage: "square.and.arrow.up")
+            }
+        }
+    }
+    
+    func getQueryText(_ url: String) -> String {
+        let query = "text=Check out this link:&url=\(url)&hashtags=CSCI571StockApp"
+        return query.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)!
+    }
+}
+
+struct MyButtonStyle: ButtonStyle {
+    func makeBody(configuration: Configuration) -> some View {
+        configuration.label
+            .opacity(1)
     }
 }
 
