@@ -21,6 +21,7 @@ struct StockDetails: View {
     @State var fetched = false
     @State var isFavorite = false
     @State var isLimited = true
+    @State var showToast = false
     let group = DispatchGroup()
     let formatter = DateFormatter()
     
@@ -217,6 +218,17 @@ struct StockDetails: View {
                 .navigationTitle(ticker)
                 .padding(.horizontal)
             }
+            .toolbar {
+                Button(action: { toggleFavorite() }) {
+                    Image(systemName: isFavorite ? "plus.circle.fill" : "plus.circle")
+                }
+            }
+            .toast(isPresented: $showToast) {
+                Group {
+                    isFavorite ? Text("Adding \(ticker) to Favorites") : Text("Removing \(ticker) from Favorites")
+                }
+                .foregroundColor(.white)
+            }
         }
     }
     
@@ -356,6 +368,25 @@ struct StockDetails: View {
     func getQueryText(_ url: String) -> String {
         let query = "text=Check out this link:&url=\(url)&hashtags=CSCI571StockApp"
         return query.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)!
+    }
+    
+    func toggleFavorite() {
+        if !isFavorite {
+            var tmp = StockInfo(ticker.uppercased())
+            tmp.company = details.company
+            favorites.append(tmp)
+            updateFavorites()
+        } else if let index = favorites.firstIndex(where: { $0.ticker == ticker }) {
+            favorites.remove(at: index)
+            updateFavorites()
+        }
+        
+        isFavorite = !isFavorite
+        showToast = true
+    }
+    
+    func updateFavorites() {
+        favoritesStored = favorites.map { "\($0.ticker)|\($0.company)" }.joined(separator: ",")
     }
 }
 
