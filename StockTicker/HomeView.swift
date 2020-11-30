@@ -197,17 +197,18 @@ struct HomeView: View {
     
     // fetch stock data
     func fetchData(type: Int) {
-        let tickers = (type == 0 ? portfolioStored : favoritesStored) .split(separator: ",").map { $0.split(separator: "|")[0] }.joined(separator: ",")
+        let tickers = (type == 0 ? portfolioStored : favoritesStored).split(separator: ",").map { $0.split(separator: "|")[0] }.joined(separator: ",")
         
         HTTP.getLatestPrice(tickers: tickers) { data in
             for (_, item): (String, JSON) in data {
-                let index = (type == 0 ? portfolio : favorites).firstIndex { $0.ticker.uppercased() == item["ticker"].string!.uppercased() }
-                if (type == 0) {
-                    portfolio[index!].latest.last = item["last"].double!
-                    portfolio[index!].latest.change = item["last"].double! - item["prevClose"].double!
-                } else {
-                    favorites[index!].latest.last = item["last"].double!
-                    favorites[index!].latest.change = item["last"].double! - item["prevClose"].double!
+                if let index = (type == 0 ? portfolio : favorites).firstIndex (where: { $0.ticker.uppercased() == item["ticker"].string!.uppercased() }) {
+                    if (type == 0) {
+                        portfolio[index].latest.last = item["last"].double!
+                        portfolio[index].latest.change = item["last"].double! - item["prevClose"].double!
+                    } else {
+                        favorites[index].latest.last = item["last"].double!
+                        favorites[index].latest.change = item["last"].double! - item["prevClose"].double!
+                    }
                 }
             }
             group.leave()
