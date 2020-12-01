@@ -57,15 +57,16 @@ struct StockDetails: View {
                         }
                         HStack {
                             Text("$\(details.latest.last.toFixed(to: 2)) ")
-                                .font(.title)
-                                .fontWeight(/*@START_MENU_TOKEN@*/.bold/*@END_MENU_TOKEN@*/)
+                                .font(.largeTitle)
+                                .fontWeight(.semibold)
                             Text("($\(details.latest.change.toFixed(to: 2)))")
                                 .foregroundColor(details.latest.change > 0 ? .green : details.latest.change < 0 ? .red : .gray)
-                                .font(.body)
+                                .font(.title2)
                                 .padding(.top, 3)
                             Spacer()
                         }
                     }
+                    .padding(.bottom, -0.1)
                     
                     // chart section
                     Charts(ticker: ticker)
