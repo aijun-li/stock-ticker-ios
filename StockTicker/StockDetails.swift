@@ -68,7 +68,10 @@ struct StockDetails: View {
                     }
                     
                     // chart section
-                    
+                    Charts(ticker: ticker)
+                        .frame(height: 403)
+                        .padding(.horizontal, -15)
+                        
                     
                     // portfolio section
                     VStack {
