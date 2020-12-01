@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		F50497CB2574DE6600954CFB /* TradeSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = F50497CA2574DE6600954CFB /* TradeSheet.swift */; };
 		F52233732573920300FB698E /* KingfisherSwiftUI in Frameworks */ = {isa = PBXBuildFile; productRef = F52233722573920300FB698E /* KingfisherSwiftUI */; };
 		F56506CC25696CC2003E194A /* StockTickerApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = F56506CB25696CC2003E194A /* StockTickerApp.swift */; };
 		F56506CE25696CC2003E194A /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F56506CD25696CC2003E194A /* HomeView.swift */; };
@@ -47,6 +48,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		F50497CA2574DE6600954CFB /* TradeSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TradeSheet.swift; sourceTree = "<group>"; };
 		F56506C825696CC2003E194A /* StockTicker.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = StockTicker.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		F56506CB25696CC2003E194A /* StockTickerApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StockTickerApp.swift; sourceTree = "<group>"; };
 		F56506CD25696CC2003E194A /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
@@ -128,6 +130,7 @@
 				F56506CD25696CC2003E194A /* HomeView.swift */,
 				F5D65A8D2572346700E67246 /* Debouncer.swift */,
 				F56964B92571209600E6CD27 /* StockDetails.swift */,
+				F50497CA2574DE6600954CFB /* TradeSheet.swift */,
 				F56EE804256FFFE0009AC4BB /* HTTP.swift */,
 				F5D76EF0256E27B700751930 /* SearchBar.swift */,
 				F5D76EFA256E3DA200751930 /* StockListItem.swift */,
@@ -322,6 +325,7 @@
 				F56EE7F4256FAB4E009AC4BB /* StockInfo.swift in Sources */,
 				F5D76EF6256E29A500751930 /* ViewControllerResolver.swift in Sources */,
 				F56506CE25696CC2003E194A /* HomeView.swift in Sources */,
+				F50497CB2574DE6600954CFB /* TradeSheet.swift in Sources */,
 				F5D65A8E2572346700E67246 /* Debouncer.swift in Sources */,
 				F56964BA2571209600E6CD27 /* StockDetails.swift in Sources */,
 				F56506CC25696CC2003E194A /* StockTickerApp.swift in Sources */,

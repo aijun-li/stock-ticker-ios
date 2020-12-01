@@ -13,7 +13,6 @@ struct StockDetails: View {
     let ticker: String
     @AppStorage("portfolio") var portfolioStored: String = ""
     @AppStorage("favorites") var favoritesStored: String = ""
-    @AppStorage("cash") var cash: Double = 0.0
     @Binding var portfolio: [StockInfo]
     @Binding var favorites: [StockInfo]
     @State var details: StockInfo!
@@ -22,6 +21,7 @@ struct StockDetails: View {
     @State var isFavorite = false
     @State var isLimited = true
     @State var showToast = false
+    @State var showSheet = false
     let group = DispatchGroup()
     let formatter = DateFormatter()
     
@@ -89,13 +89,13 @@ struct StockDetails: View {
                             }
                             .font(.footnote)
                             Spacer()
-                            Button("Trade") {
-                                
+                            Button(action: { withAnimation { showSheet = true } }) {
+                                Text("Trade")
+                                    .frame(width: 150, height: 50)
+                                    .background(Color.green)
+                                    .foregroundColor(.white)
+                                    .cornerRadius(100)
                             }
-                            .frame(width: 150, height: 50)
-                            .background(Color.green)
-                            .foregroundColor(.white)
-                            .cornerRadius(100)
                         }
                         .padding(.top, 10)
                     }
@@ -224,11 +224,17 @@ struct StockDetails: View {
                     Image(systemName: isFavorite ? "plus.circle.fill" : "plus.circle")
                 }
             }
+            .sheet(isPresented: $showSheet) {
+                TradeSheet(details: $details, showSheet: $showSheet)
+            }
             .toast(isPresented: $showToast) {
                 Group {
                     isFavorite ? Text("Adding \(ticker) to Favorites") : Text("Removing \(ticker) from Favorites")
                 }
                 .foregroundColor(.white)
+            }
+            .onChange(of: details.shares) { _ in
+                updateShares()
             }
         }
     }
@@ -360,6 +366,20 @@ struct StockDetails: View {
     
     func updateFavorites() {
         favoritesStored = favorites.map { "\($0.ticker)|\($0.company)" }.joined(separator: ",")
+    }
+    
+    func updateShares() {
+        if let index = portfolio.firstIndex(where: { $0.ticker == details.ticker }) {
+            if (details.shares == 0) {
+                portfolio.remove(at: index)
+            } else {
+                portfolio[index].shares = details.shares
+            }
+        } else if details.shares > 0 {
+            portfolio.append(details)
+        }
+        
+        portfolioStored = portfolio.map { "\($0.ticker)|\($0.shares)" }.joined(separator: ",")
     }
 }
 
