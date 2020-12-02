@@ -428,6 +428,8 @@ struct NewsListItem: View {
                 }
                 .padding(.leading, 5)
                 
+                Spacer()
+                
                 if let imgURL = URL(string: news.img) {
                     KFImage(imgURL)
                         .resizable()
