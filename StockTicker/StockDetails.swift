@@ -384,6 +384,11 @@ struct StockDetails: View {
         }
         
         portfolioStored = portfolio.map { "\($0.ticker)|\($0.shares)" }.joined(separator: ",")
+        
+        if let index = favorites.firstIndex(where: { $0.ticker == details.ticker }) {
+            favorites[index].shares = details.shares
+            updateFavorites()
+        }
     }
 }
 
