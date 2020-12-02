@@ -14,7 +14,7 @@ struct HomeView: View {
     @ObservedObject var searchBar: SearchBar = SearchBar()
     @AppStorage("portfolio") var portfolioStored: String = ""
     @AppStorage("favorites") var favoritesStored: String = ""
-    @AppStorage("cash") var cash: Double = 0.0
+    @AppStorage("cash") var cash: Double = 20000.0
     @State var portfolio: [StockInfo] = []
     @State var favorites: [StockInfo] = []
     @State var fetched = false

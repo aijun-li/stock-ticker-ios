@@ -11,7 +11,7 @@ import Combine
 struct TradeSheet: View {
     @Binding var details: StockInfo!
     @Binding var showSheet: Bool
-    @AppStorage("cash") var cash: Double = 0.0
+    @AppStorage("cash") var cash: Double = 20000.0
     @State var showToast = false
     @State var toastContent: String = ""
     @State var input: String = ""
