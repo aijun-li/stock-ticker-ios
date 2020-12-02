@@ -166,45 +166,53 @@ struct StockDetails: View {
                         }
                         .padding(.top)
                         if (news.count > 0) {
-                            Link(destination: URL(string: news[0].url)!) {
-                                VStack {
-                                    KFImage(URL(string: news[0].img)!)
-                                        .resizable()
-                                        .scaledToFill()
-                                        .cornerRadius(10)
-                                        .clipped()
+                            if let url = URL(string: news[0].url) {
+                                Link(destination: url) {
                                     VStack {
-                                        HStack {
-                                            Text("\(news[0].source) ")
-                                                .fontWeight(.bold)
-                                            Text(news[0].diff)
-                                            Spacer()
+                                        if let imgURL = URL(string: news[0].img) {
+                                            KFImage(imgURL)
+                                                .resizable()
+                                                .scaledToFill()
+                                                .cornerRadius(10)
+                                                .clipped()
                                         }
-                                        .font(.footnote)
-                                        .foregroundColor(.gray)
-                                        .padding(.top, 10)
-                                        .padding(.bottom, 0.5)
-                                        HStack {
-                                            Text(news[0].title)
-                                                .fontWeight(/*@START_MENU_TOKEN@*/.bold/*@END_MENU_TOKEN@*/)
-                                                .fixedSize(horizontal: false, vertical: true)
-                                            Spacer()
+                                        VStack {
+                                            HStack {
+                                                Text("\(news[0].source) ")
+                                                    .fontWeight(.bold)
+                                                Text(news[0].diff)
+                                                Spacer()
+                                            }
+                                            .font(.footnote)
+                                            .foregroundColor(.gray)
+                                            .padding(.top, 10)
+                                            .padding(.bottom, 0.5)
+                                            HStack {
+                                                Text(news[0].title)
+                                                    .fontWeight(/*@START_MENU_TOKEN@*/.bold/*@END_MENU_TOKEN@*/)
+                                                    .fixedSize(horizontal: false, vertical: true)
+                                                Spacer()
+                                            }
+                                        }
+                                        .padding(.horizontal, 5)
+                                        .padding(.bottom, 2)
+                                    }
+                                }
+                                .foregroundColor(.black)
+                                .background(Color.white)
+                                .contentShape(RoundedRectangle(cornerRadius: 10))
+                                .buttonStyle(MyButtonStyle())
+                                .contextMenu {
+                                    if let newsURL = URL(string: news[0].url) {
+                                        Link(destination: newsURL) {
+                                            Label("Open in Safari", systemImage: "safari")
                                         }
                                     }
-                                    .padding(.horizontal, 5)
-                                    .padding(.bottom, 2)
-                                }
-                            }
-                            .foregroundColor(.black)
-                            .background(Color.white)
-                            .contentShape(RoundedRectangle(cornerRadius: 10))
-                            .buttonStyle(MyButtonStyle())
-                            .contextMenu {
-                                Link(destination: URL(string: news[0].url)!) {
-                                    Label("Open in Safari", systemImage: "safari")
-                                }
-                                Link(destination: URL(string: "https://twitter.com/intent/tweet?\(getQueryText(news[0].url))")!) {
-                                    Label("Share on Twitter", systemImage: "square.and.arrow.up")
+                                    if let twitterURL = URL(string: "https://twitter.com/intent/tweet?\(getQueryText(news[0].url))") {
+                                        Link(destination: twitterURL) {
+                                            Label("Share on Twitter", systemImage: "square.and.arrow.up")
+                                        }
+                                    }
                                 }
                             }
                             
@@ -213,7 +221,9 @@ struct StockDetails: View {
                             
                             // news list
                             ForEach (1..<news.count, id: \.self) { index in
-                                NewsListItem(news: news[index])
+                                if URL(string: news[index].url) != nil {
+                                    NewsListItem(news: news[index])
+                                }
                             }
                             .padding(.vertical, 5)
                         }
@@ -418,12 +428,14 @@ struct NewsListItem: View {
                 }
                 .padding(.leading, 5)
                 
-                KFImage(URL(string: news.img)!)
-                    .resizable()
-                    .scaledToFill()
-                    .frame(width: 95, height: 95)
-                    .cornerRadius(10)
-                    .clipped()
+                if let imgURL = URL(string: news.img) {
+                    KFImage(imgURL)
+                        .resizable()
+                        .scaledToFill()
+                        .frame(width: 95, height: 95)
+                        .cornerRadius(10)
+                        .clipped()
+                }
             }
         }
         .foregroundColor(.black)
@@ -431,11 +443,15 @@ struct NewsListItem: View {
         .contentShape(RoundedRectangle(cornerRadius: 10))
         .buttonStyle(MyButtonStyle())
         .contextMenu {
-            Link(destination: URL(string: news.url)!) {
-                Label("Open in Safari", systemImage: "safari")
+            if let newsURL = URL(string: news.url) {
+                Link(destination: newsURL) {
+                    Label("Open in Safari", systemImage: "safari")
+                }
             }
-            Link(destination: URL(string: "https://twitter.com/intent/tweet?\(getQueryText(news.url))")!) {
-                Label("Share on Twitter", systemImage: "square.and.arrow.up")
+            if let twitterURL = URL(string: "https://twitter.com/intent/tweet?\(getQueryText(news.url))") {
+                Link(destination: twitterURL) {
+                    Label("Share on Twitter", systemImage: "square.and.arrow.up")
+                }
             }
         }
     }
