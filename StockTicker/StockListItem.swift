@@ -44,9 +44,9 @@ struct StockListItem: View {
     }
 }
 
-struct StockListItem_Previews: PreviewProvider {
-    static var previews: some View {
-        StockListItem(item: testPortfolio)
-            .previewLayout(.sizeThatFits)
-    }
-}
+//struct StockListItem_Previews: PreviewProvider {
+//    static var previews: some View {
+//        StockListItem(item: testPortfolio)
+//            .previewLayout(.sizeThatFits)
+//    }
+//}
