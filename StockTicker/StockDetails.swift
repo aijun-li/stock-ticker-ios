@@ -70,7 +70,7 @@ struct StockDetails: View {
                     
                     // chart section
                     Charts(ticker: ticker)
-                        .frame(height: 403)
+                        .frame(height: 405)
                         .padding(.horizontal, -15)
                         
                     
