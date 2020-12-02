@@ -122,6 +122,7 @@ struct StockDetails: View {
                                 Text("Volume: \(details.latest.volume)")
                                 Text("Bid Price: \(details.latest.bid.toFixed(to: 2))")
                             }
+                            .padding(.bottom, 10)
                         }
                         .font(.footnote)
                         .padding(.top, 10)
