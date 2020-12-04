@@ -24,7 +24,7 @@ struct StockListItem: View {
             }
             HStack {
                 if (item.shares > 0) {
-                    Text("\(item.shares.toFixed(to: 2)) shares")
+                    Text("\(item.shares.toFixed(to: 2)) share\(item.shares > 1 ? "s" : "")")
                         .foregroundColor(.gray)
                 } else {
                     Text(item.company)
