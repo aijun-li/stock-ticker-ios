@@ -2,7 +2,7 @@
 
 ## Description
 
-A IOS APP that allows users to search for and keep track of stocks using Swift and SwiftUI.
+An ios APP that allows users to search for and keep track of stocks using Swift and SwiftUI.
 
 ## Preview
 
